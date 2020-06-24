@@ -3,10 +3,12 @@
 -- space in between these two and make it UPPER CASE.
 
 SELECT CustomerId,
-       FirstName || " " || LastName AS FullName,
+       UPPER(FirstName || " " || LastName) AS FullName,
        Address,
        UPPER(City || " " || Country) AS CityCountry
-FROM Customers
+FROM Customers WHERE CustomerId=16
+-- What is the city and country result for CustomerID 16?
+-- Answers:MOUNTAIN VIEW USA
 
 ------------------------------------------------------------------------------------
 -- Q2) Create a new employee user id by combining the first 4 letter of the
@@ -17,9 +19,10 @@ SELECT FirstName,
        LastName,
        LOWER(SUBSTR(FirstName,1,4)) AS A,
        LOWER(SUBSTR(LastName,1,2)) AS B,
-       LOWER(SUBSTR(FirstName,1,4)) || LOWER(SUBSTR(LastName,1,2)) AS userId
+       LOWER(SUBSTR(FirstName,1,4)) || LOWER(SUBSTR(LastName,1,2)) AS NEWId
 FROM Employees
-
+-- What is the final result for Robert King?
+-- Answers: ROBEKI
 ------------------------------------------------------------------------------------
 -- Q3) Show a list of employees who have worked for the company for 15 or more 
 -- years using the current date function. Sort by lastname ascending.
@@ -33,7 +36,8 @@ SELECT FirstName,
 FROM Employees
 WHERE YearsWorked >= 15
 ORDER BY LastName ASC
-
+-- What is the lastname of the last person on the list returned?
+-- Answers: peacock
 ------------------------------------------------------------------------------------
 -- Q4) Profiling the Customers table, answer the following question.
 
@@ -48,11 +52,13 @@ WHERE [some_column] IS NULL
 -- Q5) Find the cities with the most customers and rank in descending order.
 
 SELECT City,
-       COUNT(*)
+       COUNT(CustomerId) 
 FROM Customers
 GROUP BY City
-ORDER BY COUNT(*) DESC
-
+ORDER BY COUNT(CustomerId) DESC
+-- Which of the following cities indicate having 2 customers?
+-- Answers: London, Mountain View, São Paulo 
+                                                 
 ------------------------------------------------------------------------------------
 -- Q6) Create a new customer invoice id by combining a customer’s invoice id with
 -- their first and last name while ordering your query in the following order:
@@ -65,3 +71,7 @@ SELECT C.FirstName,
 FROM Customers C INNER JOIN Invoices I
 ON C.CustomerId = I.CustomerID
 WHERE NewId LIKE 'AstridGruber%'
+-- Select all of the correct "AstridGruber" entries that are returned in your results below. Select all that apply.
+-- -- Answers: AstridGruber273, AstridGruber296 ,AstridGruber370
+
+
