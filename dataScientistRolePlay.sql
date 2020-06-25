@@ -179,24 +179,26 @@ Part 1: Yelp Dataset Profiling and Understanding
 	
 		SQL code used to arrive at answer:
 		
-			SELECT stars,
-				   SUM(review_count) AS count
-			FROM business
-			WHERE city == 'Avon'
-			GROUP BY stars		
+	Select 
+	count(id) as count
+	,stars
+	from business
+	where city = 'Avon'
+	group by stars
+	order by stars desc;	
 	
 		
 		Copy and Paste the Resulting Table Below (2 columns - star rating and count):
 	
 			+-------+-------+
-			| stars | count |
+			| count | stars |
 			+-------+-------+
-			|   1.5 |    10 |
-			|   2.5 |     6 |
-			|   3.5 |    88 |
-			|   4.0 |    21 |
-			|   4.5 |    31 |
-			|   5.0 |     3 |
+			|     1 |   5.0 |
+			|     1 |   4.5 |
+			|     2 |   4.0 |
+			|     3 |   3.5 |
+			|     2 |   2.5 |
+			|     1 |   1.5 |
 			+-------+-------+	
 	
 	
@@ -204,25 +206,27 @@ Part 1: Yelp Dataset Profiling and Understanding
 
 		SQL code used to arrive at answer:
 	
-			SELECT stars,
-				   SUM(review_count) AS count
-			FROM business
-			WHERE city == 'Beachwood'
-			GROUP BY stars
+	Select 
+	count(id) as count
+	,stars
+	from business
+	where city = 'Beachwood'
+	group by stars
+	order by stars desc;
 		
 		Copy and Paste the Resulting Table Below (2 columns - star rating and count):
-		
-			+-------+-------+
-			| stars | count |
-			+-------+-------+
-			|   2.0 |     8 |
-			|   2.5 |     3 |
-			|   3.0 |    11 |
-			|   3.5 |     6 |
-			|   4.0 |    69 |
-			|   4.5 |    17 |
-			|   5.0 |    23 |
-			+-------+-------+
+		+-------+-------+
+		| count | stars |
+		+-------+-------+
+		|     5 |   5.0 |
+		|     2 |   4.5 |
+		|     1 |   4.0 |
+		|     2 |   3.5 |
+		|     2 |   3.0 |
+		|     1 |   2.5 |
+		|     1 |   2.0 |
+		+-------+-------+	
+			
 		
 
 7. Find the top 3 users based on their total number of reviews:
@@ -590,3 +594,71 @@ Part 2: Inferences and Analysis
 		INNER JOIN attribute A
 		ON B.id = A.business_id
 		GROUP BY B.id
+			
+
+--or,, another answer--
+3. For this last part of your analysis, you are going to choose the type of analysis you want to conduct on the Yelp dataset and are going to prepare the data for analysis.
+	
+i. Indicate the type of analysis you chose to do:
+    I tried to find the factors on which writing(compliment_writer) of a yelp reviewer was judged.
+         
+ii. Write 1-2 brief paragraphs on the type of data you will need for your analysis and why you chose that data:
+     The data I needed required details of the yelp reviewers and the quality of review itself.
+	 This means that I needed the yelper' name, the date of yelp first review, number of reviews, compliment_writer.
+	 With that I also required taking yelp data of usefulness and text itself.
+	 Text was taken to determine the kind of writing used.
+	 
+iii. Output of your finished dataset:
+     The numerical results were fairly easy to get from the code.
+		The results I found were as follows:
+		The yelp reviewer's who started earlier were more likely to be complimented as writers than those who satarted late.
+		The data also showed that writing had nothing to do with the number of reviews, but the way a review is framed.
+		Harsher critiques and softer critiques were usually not complimented, the scrutiny with average number of stars were most complimented.
+		It was not possible to group styles of writing and understand the schematics of the review written from the dataset at less viewings and would take harsher approach.
+		Sample output of review by getting compliment_writer desc way:
+		+------------------------+------------+--------------+---------------------+---------------+-------------------+--------+
+		| id                     | name       | review_count | yelping_since       | average_stars | compliment_writer | useful |
+		+------------------------+------------+--------------+---------------------+---------------+-------------------+--------+
+		| -C-l8EHSLXtZZVfUAUhsPA | Nieves     |          178 | 2013-07-08 00:00:00 |          3.64 |                77 |      2 |
+		| -fQPzH-e-ubDIiLQhybEjQ | Dottsy     |          196 | 2008-04-14 00:00:00 |          3.42 |                62 |      9 |
+		| -ARdx8hOcEWlMDjzwLYZ_g | AJA        |          257 | 2011-04-04 00:00:00 |          3.86 |                35 |      2 |
+		| --Qh8yKWAvIP4V4K8ZPfHA | Dixie      |          503 | 2011-01-19 00:00:00 |          3.19 |                34 |      6 |
+		| -aq0KKWyMbhugu183UGj7Q | Annie      |          279 | 2011-02-02 00:00:00 |           4.0 |                33 |      2 |
+		| -k5yFUChotBMGQgHdFZvLQ | Pinky      |          449 | 2008-03-02 00:00:00 |          3.75 |                26 |      1 |
+		| -hxUwfo3cMnLTv-CAaP69A | Crissy     |          676 | 2008-07-31 00:00:00 |          3.31 |                16 |      0 |
+		| -CLMUyt1G88DHYytsuPebQ | Dave       |          345 | 2010-12-13 00:00:00 |          3.69 |                11 |      1 |
+		| -KpEgEen1tj-jdjIS7uVOw | Isabelle   |          167 | 2013-10-27 00:00:00 |          3.83 |                10 |      0 |
+		| -8nmj3B-tfY_vFiimtBOsw | Sanaz      |           71 | 2014-11-23 00:00:00 |          3.77 |                10 |      1 |
+		| -K8IQoaXwzxBCGx1IU86aw | Christophe |           90 | 2013-10-15 00:00:00 |          4.01 |                 8 |      0 |
+		| -fUARDNuXAfrOn4WLSZLgA | Ed         |          904 | 2009-08-10 00:00:00 |           3.6 |                 5 |      0 |
+		| -7bM_DeL2Kj2CuYuVDsLNg | Jade       |          109 | 2010-07-17 00:00:00 |          3.36 |                 5 |      1 |
+		| -CxzWyvRj3b3tvFdelf38w | Jean       |          259 | 2008-03-08 00:00:00 |          3.91 |                 5 |      1 |
+		| -FFqZupwGHf-vrsUHMr_vw | Mark       |          418 | 2015-10-13 00:00:00 |           4.0 |                 5 |      0 |
+		| -594af_E7Z9VVjQc9pJK3g | Andrea     |          174 | 2012-10-30 00:00:00 |          3.87 |                 4 |      2 |
+		| -C0suJCZXOM93IuqIBaOew | Jarrod     |           67 | 2011-05-14 00:00:00 |          3.77 |                 4 |      0 |
+		| -fEe8XBeJ6pGLIeAyAWzfw | Char       |          122 | 2011-02-24 00:00:00 |          3.82 |                 3 |      1 |
+		| -d4NT5rjIpZEz07f5rYtlg | Danny      |          564 | 2009-07-07 00:00:00 |          3.46 |                 3 |      1 |
+		| -hzflbbqcKxDTLfDcjQEzA | Kyle       |          240 | 2011-05-23 00:00:00 |          3.82 |                 3 |      0 |
+		| -Biq3Dt8YhkRJEO_ITrvww | Christina  |           86 | 2013-04-01 00:00:00 |          4.69 |                 2 |      2 |
+		| -l4iRZ2wYow39RTevk21Dg | Craig      |           83 | 2008-07-04 00:00:00 |          3.29 |                 2 |      2 |
+		| -0udWcFQEt2M8kM3xcIofw | Kaitlan    |          235 | 2015-05-01 00:00:00 |          3.92 |                 2 |      0 |
+		| -jL7hLAAwOnCAWKQlL9Wew | Alaina     |           44 | 2014-02-28 00:00:00 |           4.0 |                 1 |      0 |
+		| -AkZkFH_md2-2kaSsvgrkg | Alan       |          117 | 2012-02-15 00:00:00 |          2.76 |                 1 |      0 |
+		+------------------------+------------+--------------+---------------------+---------------+-------------------+--------+
+		(Output limit exceeded, 25 of 66 total rows shown)
+         
+iv. Provide the SQL code you used to create your final dataset:
+
+Tables review and user were joined for my task as follows:
+
+		Select u.id, u.name, u.review_count, u.yelping_since, u.average_stars
+		,u.compliment_writer
+		--,r.text
+		,r.useful
+		from review r
+		inner join user u on u.id = r.user_id
+		group by u.name
+		order by u.compliment_writer desc
+		--order by u.yelping_since asc --Use as required
+		--order by u.average_stars asc
+						 
